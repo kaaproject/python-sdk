@@ -34,8 +34,7 @@ def get_time_series_config(application_names=None):
     return resp.json()
 
 
-@with_types(list, datetime, datetime, str, list, str)
-def get_time_series(app_name, time_series_names, from_date, to_date, endpoint_id=None, sort=None):
+def get_time_series(app_name, time_series_names, from_date, to_date, endpoint_id=None, sort='ASC'):
     r"""
     Returns time series data points within the specified time range ordered by timestamp and grouped by endpoints.
 
@@ -55,8 +54,8 @@ def get_time_series(app_name, time_series_names, from_date, to_date, endpoint_id
     params = {
         "timeSeriesName": time_series_names,
         "endpointId": endpoint_id,
-        "fromDate": from_date.isoformat(),
-        "toDate": to_date.isoformat(),
+        "fromDate": f"{from_date.isoformat()}Z",
+        "toDate": f"{to_date.isoformat()}Z",
         "sort": sort
     }
 
@@ -67,7 +66,7 @@ def get_time_series(app_name, time_series_names, from_date, to_date, endpoint_id
     return resp.json()
 
 
-@with_types(list, list)
+@with_types(str, list)
 def get_last_time_series(app_name, time_series_names, endpoint_id=None):
     r"""
     Returns the most recent data points for time series for endpoint(s).
@@ -83,11 +82,13 @@ def get_last_time_series(app_name, time_series_names, endpoint_id=None):
         "Authorization": f"Bearer {token}"
     }
     params = {
-        "timeSeriesName": time_series_names,
-        "endpointId": endpoint_id
+        "timeSeriesName": time_series_names
     }
 
-    resp = requests.get(f'https://{host}/{SERVICE_NAME}/api/{API_VERSION}"/applications/{app_name}/time-series/last"',
+    if endpoint_id:
+        params["endpointId"] = endpoint_id
+
+    resp = requests.get(f'https://{host}/{SERVICE_NAME}/api/{API_VERSION}/applications/{app_name}/time-series/last',
                         params=params, headers=headers)
     resp.raise_for_status()
 
