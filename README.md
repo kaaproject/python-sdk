@@ -2,6 +2,10 @@
 
 Current version of Kaa Python SDK covers authentication management and provides programmatic access for timeseries REST API.
 
+# Supported python versions
+
+Python 3.6 and higher
+
 # How to use
 
 ### Step 1 - Set credentials
