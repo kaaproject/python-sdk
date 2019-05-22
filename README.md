@@ -38,7 +38,7 @@ get_time_series_config()
 ```python
 from kaa_sdk.epts.v1.api import get_last_time_series
 
-get_last_time_series("<APPLICATION_ID>", ["humidity", "temperature"])
+get_last_time_series("<APPLICATION_NAME>", ["humidity", "temperature"])
 
 ```
 
@@ -50,7 +50,7 @@ from kaa_sdk.epts.v1.api import get_time_series
 
 now = datetime.now()
 then = now - timedelta(days=2)
-json_resp = get_time_series("<APPLICATION_ID>", ["humidity"], then, now, ["<ENDPOINT_ID>"], "ASC")
+json_resp = get_time_series("<APPLICATION_NAME>", ["humidity"], then, now, ["<ENDPOINT_ID>"], "ASC")
 
 ```
 
